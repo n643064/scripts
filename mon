@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ $# -ne 1 ]
+then
+	echo "Usage: mon [interface]"
+	exit
+fi
+
+ip link set dev $1 down
+airmon-ng start $1
+ip link set dev "${1}mon" down
+macchanger -r "${1}mon"
+ip link set dev "${1}mon" up

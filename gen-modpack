@@ -1,0 +1,15 @@
+#!/bin/sh
+if [ $# -ne 1 ]
+then
+	echo "Usage: ./gen.sh [file]"
+	exit
+fi
+
+FILE=$(cat $1)
+
+for line in $FILE
+do
+	id1=$(echo $line | awk -F":" '{print($1)}')
+	id2=$(echo $line | awk -F":" '{print($2)}')
+	echo {\"projectID\": \"$id1\", \"fileID\": \"$id2\", \"required\": true} | python -m json.tool | sed "s/}/},/"
+done

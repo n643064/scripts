@@ -1,0 +1,13 @@
+#!/bin/sh
+
+
+list=$(ls | grep ".json")
+
+for line in $list
+do
+	sed -i 's/"precipitation": "none",/"precipitation": "snow",/g' $line
+	sed -i 's/"precipitation": "rain",/"precipitation": "snow",/g' $line
+	sed -i '/"temperature_modifier":/c\' $line
+	sed -i '/"temperature":/c\	"temperature": -1.0,\n"temperature_modifier": "frozen"' $line
+done
+
