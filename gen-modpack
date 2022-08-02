@@ -13,5 +13,5 @@ do
 	id2=$(echo $line | awk -F":" '{print($2)}')
 	OUTPUT="$OUTPUT,{\"projectID\": \"$id1\", \"fileID\": \"$id2\", \"required\": true}"
 done
-echo "[$OUTPUT]" |sed "0,/,/{s/,//}" | python -m json.tool
+echo "{\"files\": [$OUTPUT]}" | sed "0,/,/{s/,//}" | python -m json.tool | sed "0,/{/{s/{//}"
 
