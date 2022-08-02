@@ -1,15 +1,17 @@
 #!/bin/sh
 if [ $# -ne 1 ]
 then
-	echo "Usage: ./gen.sh [file]"
+	echo "Usage: ./gen-modpack [file]"
 	exit
 fi
 
 FILE=$(cat $1)
-
+OUTPUT=""
 for line in $FILE
 do
 	id1=$(echo $line | awk -F":" '{print($1)}')
 	id2=$(echo $line | awk -F":" '{print($2)}')
-	echo {\"projectID\": \"$id1\", \"fileID\": \"$id2\", \"required\": true} | python -m json.tool | sed "s/}/},/"
+	OUTPUT="$OUTPUT,{\"projectID\": \"$id1\", \"fileID\": \"$id2\", \"required\": true}"
 done
+echo "[$OUTPUT]" |sed "0,/,/{s/,//}" | python -m json.tool
+
