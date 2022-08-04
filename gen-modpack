@@ -5,12 +5,13 @@ then
 	exit
 fi
 
-FILE=$(cat $1)
+FILE=$(cat $1 | grep ":")
 OUTPUT=""
 for line in $FILE
 do
 	id1=$(echo $line | awk -F":" '{print($1)}')
 	id2=$(echo $line | awk -F":" '{print($2)}')
+	
 	OUTPUT="$OUTPUT,{\"projectID\": \"$id1\", \"fileID\": \"$id2\", \"required\": true}"
 done
 echo "{\"files\": [$OUTPUT]}" | sed "0,/,/{s/,//}" | python -m json.tool | sed "0,/{/{s/{//}"
