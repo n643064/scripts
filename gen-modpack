@@ -5,7 +5,7 @@ then
 	exit
 fi
 
-FILE=$(cat $1 | grep ":")
+FILE=$(cat $1 | tr " " "\n" | grep ":")
 OUTPUT=""
 for line in $FILE
 do
