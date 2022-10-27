@@ -1,13 +1,17 @@
 #!/bin/sh
 
-if [ $# -ne 1 ]
+if [ $# -ne 2 ]
 then
-	echo "Usage: mon [interface]"
+	echo "Usage: mon [on/off] [interface]"
 	exit
 fi
 
-ip link set dev $1 down
-airmon-ng start $1
-ip link set dev "${1}mon" down
-macchanger -r "${1}mon"
-ip link set dev "${1}mon" up
+ip link set dev $2 down
+if [ "$1" = "on" ]
+then
+	iw $2 set monitor none
+else
+	iw $2 set type managed	
+fi
+macchanger -r $2
+ip link set dev $2 up
